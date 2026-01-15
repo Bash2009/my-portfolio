@@ -1,9 +1,8 @@
-import React from "react";
 import NavBar from "./sections/navBar";
 import HeroSection from "./sections/heroSection";
 import AboutSection from "./sections/about";
 import ContactSection from "./sections/contact";
-import ProjectSection from "./sections/projects";
+// import ProjectSection from "./sections/projects";
 
 const App = () => {
   return (

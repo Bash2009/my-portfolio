@@ -1,5 +1,3 @@
-import * as React from "react";
-
 const HeroSection = () => {
   return (
     <section className="hero">

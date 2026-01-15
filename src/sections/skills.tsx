@@ -1,4 +1,3 @@
-import React from "react";
 import { skills } from "../constants";
 import { Code2, Database, Server } from "lucide-react";
 
