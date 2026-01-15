@@ -1,0 +1,24 @@
+import * as React from "react";
+
+const HeroSection = () => {
+  return (
+    <section className="hero">
+      <div className="container">
+        <h1>Athekame Bashir</h1>
+        <p>
+          Full-Stack Web Developer | Building Modern Web Applications & APIs
+        </p>
+        <div className="cta-buttons">
+          {/* <a href="#projects" className="btn btn-primary">
+            View Projects
+          </a> */}
+          <a href="#contact" className="btn btn-secondary">
+            Get in Touch
+          </a>
+        </div>
+      </div>
+    </section>
+  );
+};
+
+export default HeroSection;
