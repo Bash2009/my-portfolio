@@ -12,7 +12,6 @@ const ProjectSection = () => {
               title={project.title}
               demo={project.demo}
               description={project.description}
-              github={project.github}
               tech={project.tech}
               key={idx}
             />
