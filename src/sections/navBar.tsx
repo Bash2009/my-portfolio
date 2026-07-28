@@ -18,19 +18,18 @@ const NavBar = () => {
   const toggleTheme = () => {
     setTheme((prev) => (prev === "light" ? "dark" : "light"));
   };
+
   return (
-    <nav className="navbar">
-      <div className="container">
-        <div className="nav-content">
-          <div className="logo">Athekame Bashir</div>
-          <button
-            className="theme-toggle"
-            onClick={toggleTheme}
-            aria-label="Toggle theme"
-          >
-            {theme === "light" ? <Moon size={20} /> : <Sun size={20} />}
-          </button>
-        </div>
+    <nav className="nav">
+      <div className="container nav__inner">
+        <span className="nav__logo">AB</span>
+        <button
+          className="nav__toggle"
+          onClick={toggleTheme}
+          aria-label="Toggle theme"
+        >
+          {theme === "light" ? <Moon size={16} /> : <Sun size={16} />}
+        </button>
       </div>
     </nav>
   );

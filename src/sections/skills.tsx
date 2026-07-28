@@ -1,52 +1,36 @@
 import { skills } from "../constants";
-import { Code2, Database, Server } from "lucide-react";
 
 const SkillsSection = () => {
   return (
-    <section
-      id="skills"
-      className="section"
-      style={{ backgroundColor: "var(--bg-secondary)" }}
-    >
+    <section id="skills" className="skills">
       <div className="container">
-        <h2 className="section-title">Technical Skills</h2>
-        <div className="skills-grid">
-          <div className="skill-card">
-            <div className="skill-card-header">
-              <Code2 size={24} />
-              <h3>Frontend Development</h3>
-            </div>
-            <div className="skill-tags">
+        <h2 className="section-label">Stack</h2>
+        <div className="skills__groups">
+          <div className="skills__group">
+            <span className="skills__group-label">Frontend</span>
+            <div className="skills__tags">
               {skills.frontend.map((skill) => (
-                <span key={skill} className="skill-tag">
+                <span key={skill} className="skills__tag">
                   {skill}
                 </span>
               ))}
             </div>
           </div>
-
-          <div className="skill-card">
-            <div className="skill-card-header">
-              <Server size={24} />
-              <h3>Backend Development</h3>
-            </div>
-            <div className="skill-tags">
+          <div className="skills__group">
+            <span className="skills__group-label">Backend</span>
+            <div className="skills__tags">
               {skills.backend.map((skill) => (
-                <span key={skill} className="skill-tag">
+                <span key={skill} className="skills__tag">
                   {skill}
                 </span>
               ))}
             </div>
           </div>
-
-          <div className="skill-card">
-            <div className="skill-card-header">
-              <Database size={24} />
-              <h3>Database Management</h3>
-            </div>
-            <div className="skill-tags">
+          <div className="skills__group">
+            <span className="skills__group-label">Database</span>
+            <div className="skills__tags">
               {skills.database.map((skill) => (
-                <span key={skill} className="skill-tag">
+                <span key={skill} className="skills__tag">
                   {skill}
                 </span>
               ))}
