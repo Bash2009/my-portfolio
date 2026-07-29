@@ -119,7 +119,7 @@ const ContactSection = () => {
                 GitHub
               </a>
               <a
-                href="https://linkedin.com/in/bashir-athekame-355170376"
+                href="https://linkedin.com/in/bashir-athekame"
                 className="contact__link"
                 target="_blank"
                 rel="noopener noreferrer"
