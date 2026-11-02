@@ -1,18 +1,24 @@
 const projects = [
 	{
+		title: "Virograf",
+		description:
+			"A platform for founders, cofounders, and investors to connect and collaborate. Users can create profiles, showcase their projects, and network with potential partners. The platform also includes features for messaging and project management.",
+		tech: ["HTML", "CSS", "JavaScript", "Three.js", "Node.js", "Express.js"],
+		demo: "https://virograf.com/",
+	},
+	{
 		title: "Full-Stack Chat Platform",
 		description:
 			"Real-time messaging application with user authentication, private and group chats, and message persistence. Features include typing indicators, read receipts, and file sharing. The repos are in my GitHub profile. Note: The backend is deployed on the Render platform, which may take a few seconds to wake up if it has been idle.",
-		tech: [
-			"Vite",
-			"React",
-			"NestJS",
-			"PostgreSQL",
-			"TypeScript",
-			"Socket.io",
-			"Redis",
-		],
+		tech: ["React", "NestJS", "PostgreSQL", "TypeScript", "Socket.io", "Redis"],
 		demo: "https://social-media-frontend-blush.vercel.app/",
+	},
+	{
+		title: "Indrive clone",
+		description:
+			"A ride-sharing web application that allows users to book rides, view available drivers, and manage their trips. The application features a user-friendly interface and a responsive design for seamless use across devices. The backend is deployed on the Render platform, which may take a few seconds to wake up if it has been idle.",
+		tech: ["HTML", "CSS", "JavaScript", "Bootstrap", "PHP", "MySQL"],
+		demo: "https://indrive-6hwa.onrender.com/",
 	},
 	{
 		title: "Art chronicles",
