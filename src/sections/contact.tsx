@@ -66,14 +66,15 @@ const ContactSection = () => {
       id="contact"
       ref={ref}
       className="reveal px-4 py-28 md:px-10 md:py-40"
-      style={{ "--reveal-delay": "80ms" } as React.CSSProperties}
     >
       <div className="mx-auto max-w-6xl">
-        <span className="eyebrow">04 — Contact</span>
+        <span className="eyebrow" data-reveal>
+          04 — Contact
+        </span>
 
         <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-12">
           {/* Form — Double-Bezel panel */}
-          <div className="bezel md:col-span-7">
+          <div className="bezel md:col-span-7" data-reveal>
             <div className="bezel__core p-7 md:p-10">
               <h2 className="font-display text-3xl font-medium tracking-[-0.02em] text-ink md:text-4xl">
                 Tell me what
@@ -155,7 +156,7 @@ const ContactSection = () => {
 
           {/* Direct links — stacked bezel cards */}
           <div className="flex flex-col gap-6 md:col-span-5">
-            <div className="bezel">
+            <div className="bezel" data-reveal>
               <div className="bezel__core p-7 md:p-9">
                 <p className="font-display text-xl font-medium leading-snug text-ink">
                   Prefer to reach out directly?
@@ -192,7 +193,7 @@ const ContactSection = () => {
               </div>
             </div>
 
-            <div className="bezel">
+            <div className="bezel" data-reveal>
               <div className="bezel__core flex items-center gap-4 p-7 md:p-9">
                 <span className="h-2 w-2 shrink-0 rounded-full bg-emerald shadow-[0_0_12px_rgba(52,211,153,0.9)]" />
                 <p className="font-mono text-[0.625rem] uppercase leading-relaxed tracking-[0.18em] text-muted">

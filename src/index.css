@@ -267,43 +267,36 @@
 }
 
 /* ═══════════════════════════════════════════
-   Scroll Reveal — transform/opacity/blur only
+   Scroll Reveal — initial hidden states only.
+   anime.js drives all reveal motion (no CSS transitions).
    ═══════════════════════════════════════════ */
 
 .reveal {
   opacity: 0;
   transform: translateY(4rem);
   filter: blur(10px);
-  transition:
-    opacity 900ms var(--ease-glass),
-    transform 900ms var(--ease-glass),
-    filter 900ms var(--ease-glass);
-  transition-delay: var(--reveal-delay, 0ms);
-  will-change: transform, opacity;
 }
 
-.reveal.is-visible {
-  opacity: 1;
-  transform: translateY(0);
-  filter: blur(0);
-  will-change: auto;
+.reveal [data-reveal] {
+  opacity: 0;
+  transform: translateY(4rem);
+  filter: blur(10px);
 }
 
 /* ═══════════════════════════════════════════
-   Staggered Overlay Links (nav menu)
+   Staggered Overlay Links (nav menu) — anime-driven
    ═══════════════════════════════════════════ */
 
 .menu-link {
   opacity: 0;
   transform: translateY(3rem);
-  transition:
-    opacity 700ms var(--ease-glass),
-    transform 700ms var(--ease-glass);
 }
 
-.menu-open .menu-link {
-  opacity: 1;
-  transform: translateY(0);
+/* splitText clip masks: breathe the mask box so tight leading (0.95)
+   never clips glyph ink; negative margin keeps layout unchanged. */
+h1 span[style*="overflow"] {
+  padding-block: 0.08em;
+  margin-block: -0.08em;
 }
 
 /* ═══════════════════════════════════════════
@@ -316,11 +309,11 @@
   }
 
   .reveal,
+  .reveal [data-reveal],
   .menu-link {
     opacity: 1;
     transform: none;
     filter: none;
-    transition: none;
   }
 
   *,
@@ -329,4 +322,185 @@
     animation-duration: 0.01ms !important;
     transition-duration: 0.01ms !important;
   }
+}
+
+/* ═══════════════════════════════════════════
+   Scroll-Scrubbed Laptop Showcase
+   CSS builds the hardware; anime scrubs the timeline.
+   z: stays within main (z-10) — no new layers.
+   ═══════════════════════════════════════════ */
+
+.laptop-track {
+  position: relative;
+  height: 350vh;
+}
+
+.laptop-stage {
+  position: sticky;
+  top: 0;
+  height: 100dvh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+}
+
+.laptop {
+  width: min(760px, 88vw, calc((100dvh - 180px) * 1.55));
+  perspective: 1600px;
+  opacity: 0; /* anime owns the reveal; anti-flash only */
+}
+
+.laptop__lid {
+  transform-origin: bottom center;
+  background: linear-gradient(180deg, #2b2b31 0%, #1a1a1f 100%);
+  padding: 9px 9px 12px;
+  border-radius: 16px 16px 4px 4px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.09),
+    inset 0 0 0 1px rgba(255, 255, 255, 0.05),
+    0 30px 70px -40px rgba(0, 0, 0, 0.95);
+}
+
+.laptop__screen {
+  position: relative;
+  aspect-ratio: 16 / 10;
+  background: var(--color-carbon);
+  border-radius: 8px;
+  overflow: hidden;
+  box-shadow:
+    inset 0 0 0 1px rgba(255, 255, 255, 0.06),
+    inset 0 2px 14px rgba(0, 0, 0, 0.7);
+}
+
+.laptop__camera {
+  position: absolute;
+  top: 4px;
+  left: 50%;
+  translate: -50% 0;
+  width: 4px;
+  height: 4px;
+  border-radius: 50%;
+  background: #0e0e11;
+  box-shadow: inset 0 0 0 1px rgba(255, 255, 255, 0.08);
+  z-index: 2;
+}
+
+.laptop__base {
+  position: relative;
+  height: 15px;
+  background: linear-gradient(180deg, #2e2e34 0%, #17171b 55%, #101014 100%);
+  border-radius: 0 0 14px 14px;
+  box-shadow:
+    inset 0 1px 0 rgba(255, 255, 255, 0.1),
+    0 24px 50px -28px rgba(0, 0, 0, 0.9);
+}
+
+.laptop__base::after {
+  content: "";
+  position: absolute;
+  left: 50%;
+  bottom: 0;
+  translate: -50% 0;
+  width: 16%;
+  height: 6px;
+  background: linear-gradient(180deg, #0c0c0f, #16161a);
+  border-radius: 0 0 7px 7px;
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, 0.06);
+}
+
+/* Browser chrome inside the screen */
+.laptop__chrome {
+  position: relative;
+  z-index: 2;
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  padding: 0.5rem 0.75rem;
+  background: rgba(255, 255, 255, 0.03);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+}
+
+.laptop__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.12);
+}
+
+.laptop__url {
+  flex: 1;
+  min-width: 0;
+  font-family: var(--font-mono);
+  font-size: 0.6rem;
+  letter-spacing: 0.04em;
+  color: var(--color-muted);
+  background: rgba(255, 255, 255, 0.04);
+  border-radius: 9999px;
+  padding: 0.2rem 0.7rem;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+/* Stacked project panels — absolute so they overlay in place */
+.project-panel {
+  position: absolute;
+  inset: 0;
+  opacity: 0;
+  display: flex;
+  flex-direction: column;
+  pointer-events: none;
+}
+
+.project-panel.is-active {
+  pointer-events: auto;
+}
+
+.project-panel__body {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 0.75rem;
+  padding: clamp(0.9rem, 2.5vw, 1.75rem);
+}
+
+/* Progress rail */
+.laptop-rail {
+  position: absolute;
+  right: clamp(0.75rem, 3vw, 2.5rem);
+  top: 50%;
+  translate: 0 -50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.7rem;
+}
+
+.laptop-rail__dot {
+  width: 7px;
+  height: 7px;
+  border-radius: 50%;
+  background: rgba(255, 255, 255, 0.16);
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  transition:
+    background-color 500ms var(--ease-glass),
+    box-shadow 500ms var(--ease-glass);
+}
+
+.laptop-rail__dot.is-on {
+  background: var(--color-accent);
+  box-shadow: 0 0 12px rgba(167, 139, 250, 0.7);
+}
+
+.laptop-rail__label {
+  font-family: var(--font-mono);
+  font-size: 0.55rem;
+  letter-spacing: 0.18em;
+  color: var(--color-muted);
+  writing-mode: vertical-rl;
 }

@@ -16,10 +16,12 @@ const SkillsSection = () => {
       id="skills"
       ref={ref}
       className="reveal px-4 py-28 md:px-10 md:py-40"
-      style={{ "--reveal-delay": "80ms" } as React.CSSProperties}
     >
       <div className="mx-auto max-w-6xl">
-        <div className="flex flex-wrap items-end justify-between gap-4">
+        <div
+          className="flex flex-wrap items-end justify-between gap-4"
+          data-reveal
+        >
           <span className="eyebrow">02 — Stack</span>
           <p className="max-w-sm text-sm text-muted">
             The tools I reach for across the full stack — chosen for
@@ -33,7 +35,7 @@ const SkillsSection = () => {
             <div
               key={group.key}
               className={`bezel ${group.span}`}
-              style={{ transitionDelay: `${i * 70}ms` }}
+              data-reveal
             >
               <div className="bezel__core flex h-full flex-col gap-6 p-7 md:p-9">
                 <div className="flex items-center gap-3">

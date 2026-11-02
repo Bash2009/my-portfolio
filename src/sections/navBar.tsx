@@ -1,5 +1,8 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { ArrowUpRight } from "@phosphor-icons/react/dist/icons/ArrowUpRight";
+import { createTimeline, stagger } from "animejs";
+import type { Timeline } from "animejs";
+import { EASE_GLASS, prefersReduced } from "../lib/motion";
 
 const LINKS = [
   { label: "About", href: "#about" },
@@ -10,6 +13,8 @@ const LINKS = [
 
 const NavBar = () => {
   const [open, setOpen] = useState(false);
+  const overlayRef = useRef<HTMLDivElement>(null);
+  const tlRef = useRef<Timeline | null>(null);
 
   useEffect(() => {
     const onKey = (e: KeyboardEvent) => {
@@ -37,32 +42,69 @@ const NavBar = () => {
     };
   }, [open]);
 
+  // Overlay choreography — anime owns all link/overlay motion.
+  useEffect(() => {
+    const overlay = overlayRef.current;
+    if (!overlay) return;
+
+    tlRef.current?.pause();
+    tlRef.current = null;
+
+    if (prefersReduced()) return;
+
+    const links = [...overlay.querySelectorAll<HTMLElement>(".menu-link")];
+    if (!links.length) return;
+
+    if (open) {
+      tlRef.current = createTimeline({ defaults: { ease: EASE_GLASS } })
+        .add(overlay, { opacity: [0, 1], duration: 550 }, 0)
+        .add(
+          links,
+          {
+            opacity: [0, 1],
+            y: [48, 0],
+            duration: 750,
+            delay: stagger(60),
+          },
+          140,
+        )
+        .play();
+    } else {
+      const visible =
+        parseFloat(window.getComputedStyle(overlay).opacity) > 0.02;
+      if (!visible) return;
+      tlRef.current = createTimeline({ defaults: { ease: EASE_GLASS } })
+        .add(links, { opacity: 0, y: 24, duration: 280, delay: stagger(15) }, 0)
+        .add(overlay, { opacity: 0, duration: 320 }, "-=140")
+        .play();
+    }
+
+    return () => {
+      tlRef.current?.pause();
+    };
+  }, [open]);
+
   return (
     <>
       {/* Full-screen glass overlay — sits under the floating pill */}
       <div
-        className={`fixed inset-0 z-40 flex flex-col items-center justify-center gap-2 bg-black/80 backdrop-blur-3xl transition-opacity duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] md:hidden ${
+        ref={overlayRef}
+        className={`fixed inset-0 z-40 flex flex-col items-center justify-center gap-2 bg-black/80 backdrop-blur-3xl md:hidden ${
           open
             ? "pointer-events-auto opacity-100"
             : "pointer-events-none opacity-0"
-        } ${open ? "menu-open" : ""}`}
+        }`}
         aria-hidden={!open}
       >
-        <span
-          className="eyebrow menu-link mb-6"
-          style={{ transitionDelay: open ? "60ms" : "0ms" }}
-        >
-          Navigation
-        </span>
+        <span className="eyebrow menu-link mb-6">Navigation</span>
 
-        {LINKS.map((link, i) => (
+        {LINKS.map((link) => (
           <a
             key={link.href}
             href={link.href}
             onClick={() => setOpen(false)}
             tabIndex={open ? 0 : -1}
             className="menu-link font-display text-5xl font-medium tracking-tight text-ink transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:text-accent"
-            style={{ transitionDelay: open ? `${120 + i * 60}ms` : "0ms" }}
           >
             {link.label}
           </a>
@@ -73,7 +115,6 @@ const NavBar = () => {
           onClick={() => setOpen(false)}
           tabIndex={open ? 0 : -1}
           className="btn btn--primary menu-link mt-10"
-          style={{ transitionDelay: open ? "380ms" : "0ms" }}
         >
           Start a project
           <span className="btn__orb">

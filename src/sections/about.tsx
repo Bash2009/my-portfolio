@@ -14,14 +14,15 @@ const AboutSection = () => {
       id="about"
       ref={ref}
       className="reveal px-4 py-28 md:px-10 md:py-40"
-      style={{ "--reveal-delay": "80ms" } as React.CSSProperties}
     >
       <div className="mx-auto max-w-6xl">
-        <span className="eyebrow">01 — Background</span>
+        <span className="eyebrow" data-reveal>
+          01 — Background
+        </span>
 
         <div className="mt-10 grid grid-cols-1 gap-6 md:grid-cols-12 md:gap-8">
           {/* Statement — wide column */}
-          <div className="bezel md:col-span-7">
+          <div className="bezel md:col-span-7" data-reveal>
             <div className="bezel__core flex h-full flex-col justify-between gap-10 p-8 md:p-12">
               <h2 className="font-display text-[clamp(1.75rem,3.5vw,2.75rem)] font-medium leading-[1.15] tracking-[-0.02em] text-ink">
                 Code that works today —{" "}
@@ -47,12 +48,8 @@ const AboutSection = () => {
 
           {/* Stats — stacked bezel mini-cards */}
           <div className="grid grid-cols-1 gap-6 sm:grid-cols-3 md:col-span-5 md:grid-cols-1 md:gap-6">
-            {STATS.map((stat, i) => (
-              <div
-                key={stat.label}
-                className="bezel"
-                style={{ transitionDelay: `${i * 60}ms` }}
-              >
+            {STATS.map((stat) => (
+              <div key={stat.label} className="bezel" data-reveal>
                 <div className="bezel__core flex items-baseline gap-4 p-6 md:p-7">
                   <span className="font-display text-5xl font-semibold tracking-tight text-accent md:text-6xl">
                     {stat.number}

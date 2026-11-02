@@ -4,8 +4,11 @@ import AboutSection from "./sections/about";
 import SkillsSection from "./sections/skills";
 import ProjectSection from "./sections/projects";
 import ContactSection from "./sections/contact";
+import useReveal from "./hooks/useReveal";
 
 const App = () => {
+  const footerRef = useReveal<HTMLElement>();
+
   return (
     <div className="relative min-h-[100dvh] bg-void text-ink">
       {/* Fixed ambient glow field + film grain (systemic layers) */}
@@ -22,7 +25,10 @@ const App = () => {
         <ContactSection />
       </main>
 
-      <footer className="relative z-10 border-t border-white/10 px-4 py-10 md:px-10">
+      <footer
+        ref={footerRef}
+        className="reveal relative z-10 border-t border-white/10 px-4 py-10 md:px-10"
+      >
         <div className="mx-auto flex max-w-6xl flex-col items-start justify-between gap-4 sm:flex-row sm:items-center">
           <p className="font-display text-base font-semibold tracking-tight text-ink">
             AB<span className="text-accent">.</span>
