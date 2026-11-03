@@ -198,8 +198,15 @@ const ProjectSection = () => {
                             </a>
                           </div>
 
-                          <h3 className="font-display font-semibold leading-tight tracking-[-0.02em] text-ink text-[clamp(1.35rem,3vw,2.25rem)]">
-                            {project.title}
+                          <h3 className="font-display font-semibold leading-tight tracking-[-0.02em] text-[clamp(1.35rem,3vw,2.25rem)]">
+                            <a
+                              href={project.demo}
+                              target="_blank"
+                              rel="noopener noreferrer"
+                              className="text-ink transition-colors duration-500 ease-[cubic-bezier(0.32,0.72,0,1)] hover:text-accent"
+                            >
+                              {project.title}
+                            </a>
                           </h3>
 
                           <p className="max-w-xl text-[0.85rem] leading-relaxed text-muted line-clamp-3">
@@ -273,13 +280,20 @@ const ProjectSection = () => {
 
                     <div className="flex-1">
                       <h3
-                        className={`font-display font-semibold leading-tight tracking-[-0.02em] text-ink ${
+                        className={`font-display font-semibold leading-tight tracking-[-0.02em] ${
                           feature
                             ? "text-3xl md:text-[2.75rem]"
                             : "text-2xl md:text-[1.75rem]"
                         }`}
                       >
-                        {project.title}
+                        <a
+                          href={project.demo}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="text-ink transition-colors duration-700 ease-[cubic-bezier(0.32,0.72,0,1)] hover:text-accent group-hover:text-accent"
+                        >
+                          {project.title}
+                        </a>
                       </h3>
 
                       <p

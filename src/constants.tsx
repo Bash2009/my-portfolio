@@ -2,8 +2,8 @@ const projects = [
 	{
 		title: "Virograf",
 		description:
-			"A platform for founders, cofounders, and investors to connect and collaborate. Users can create profiles, showcase their projects, and network with potential partners. The platform also includes features for messaging and project management.",
-		tech: ["HTML", "CSS", "JavaScript", "Three.js", "Node.js", "Express.js"],
+			"A start up platform for founders, cofounders, and investors to connect and collaborate. Users can create profiles, showcase their projects, and network with potential partners. The platform also includes features for messaging and project management. I majorly worked on the backend of this platform, and hosted it.",
+		tech: ["NestJS", "PostgreSQL", "TypeScript", "Redis", "Docker"],
 		demo: "https://virograf.com/",
 	},
 	{
