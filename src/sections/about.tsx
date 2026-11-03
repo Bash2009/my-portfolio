@@ -1,7 +1,7 @@
 import useReveal from "../hooks/useReveal";
 
 const STATS = [
-  { number: "3", label: "Projects shipped" },
+  { number: "4", label: "Projects shipped" },
   { number: "14", label: "Technologies" },
   { number: "3", label: "Stack layers" },
 ];
