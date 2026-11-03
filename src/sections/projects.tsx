@@ -15,14 +15,19 @@ const SPANS = [
   "md:col-span-12",
 ];
 
-/* Scrub timeline beats (ms on the timeline's own clock) */
-const RISE_DUR = 1200;
-const LID_START = 700;
-const LID_DUR = 1100;
-const PANEL_START = 2400;
-const SLOT = 1900;
-const IN_DUR = 650;
-const OUT_DUR = 500;
+/* Scrub timeline beats (ms on the timeline's own clock, TOTAL = 10000).
+   Progress 0 = track top crossing the viewport bottom, so the laptop
+   rises on the approach scroll; the lid opens across the pin boundary
+   (pin sits at 100vh / 350vh ≈ 2857ms) — no pop at sticky engage. */
+const TOTAL = 10000;
+const FADE_DUR = 3000;
+const SETTLE_DUR = 2400;
+const LID_START = 1900;
+const LID_DUR = 2800;
+const PANEL_START = 5000;
+const IN_DUR = 600;
+const OUT_DUR = 450;
+const SLOT = (TOTAL - PANEL_START - IN_DUR) / (projects.length - 1);
 
 const pad = (n: number) => String(n).padStart(2, "0");
 
@@ -43,16 +48,17 @@ const ProjectSection = () => {
 
     const laptop = track.querySelector<HTMLElement>(".laptop");
     const lid = track.querySelector<HTMLElement>(".laptop__lid");
+    const rail = track.querySelector<HTMLElement>(".laptop-rail");
     const panels = [...track.querySelectorAll<HTMLElement>("[data-panel]")];
     const dots = [...track.querySelectorAll<HTMLButtonElement>("[data-rail]")];
     const label = track.querySelector<HTMLElement>("[data-rail-label]");
-    if (!laptop || !lid || !panels.length) return;
+    if (!laptop || !lid || !rail || !panels.length) return;
 
     const N = panels.length;
-    const TOTAL = PANEL_START + (N - 1) * SLOT + IN_DUR;
 
     // Applied at mount (section is far below the fold — never seen mid-set).
-    utils.set(laptop, { opacity: 0, y: 140, rotateX: -18 });
+    utils.set([laptop, rail], { opacity: 0 });
+    utils.set(laptop, { y: 140, rotateX: -18 });
     utils.set(lid, { rotateX: -92 });
     utils.set(panels, { opacity: 0, y: 24 });
 
@@ -73,7 +79,7 @@ const ProjectSection = () => {
       defaults: { ease: EASE_GLASS },
       autoplay: onScroll({
         target: track,
-        enter: "top top",
+        enter: "bottom top",
         leave: "bottom bottom",
         sync: true,
         axis: "y",
@@ -93,8 +99,13 @@ const ProjectSection = () => {
       },
     })
       .add(
+        [laptop, rail],
+        { opacity: [0, 1], duration: FADE_DUR },
+        0,
+      )
+      .add(
         laptop,
-        { opacity: [0, 1], y: [140, 0], rotateX: [-18, 0], duration: RISE_DUR },
+        { y: [140, 0], rotateX: [-18, 0], duration: SETTLE_DUR },
         0,
       )
       .add(lid, { rotateX: [-92, 0], duration: LID_DUR }, LID_START);
@@ -112,14 +123,15 @@ const ProjectSection = () => {
     });
 
     // Rail dots: jump the scroll position to a panel's slot.
+    // Progress maps: scrollY = (trackTop - vh) + p * trackHeight.
     const dotHandlers = dots.map((dot, i) => {
       const handler = () => {
         const rect = track.getBoundingClientRect();
         const trackTop = window.scrollY + rect.top;
-        const range = track.offsetHeight - window.innerHeight;
-        const progress =
-          (PANEL_START + i * SLOT + IN_DUR / 2) / TOTAL;
-        window.scrollTo({ top: trackTop + progress * range });
+        const progress = (PANEL_START + i * SLOT + IN_DUR / 2) / TOTAL;
+        window.scrollTo({
+          top: trackTop - window.innerHeight + progress * track.offsetHeight,
+        });
       };
       dot.addEventListener("click", handler);
       return () => dot.removeEventListener("click", handler);
